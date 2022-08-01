@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>WASM Demo</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="style.css" rel="stylesheet" type="text/css" /> 
+</head>
+<body>
+    
+    <div class="container">
+        <button class="reset-btn" onclick="resetGame()">Restart</button>
+        <h2 id="game-status" class="status"></h2>
+        <div class="board-game">
+          <div class="block" onclick="makeMove(event)"></div>
+          <div class="block" onclick="makeMove(event)"></div>
+          <div class="block" onclick="makeMove(event)"></div>
+          <div class="block" onclick="makeMove(event)"></div>
+          <div class="block" onclick="makeMove(event)"></div>
+          <div class="block" onclick="makeMove(event)"></div>
+          <div class="block" onclick="makeMove(event)"></div>
+          <div class="block" onclick="makeMove(event)"></div>
+          <div class="block" onclick="makeMove(event)"></div>
+        </div>
+      </div>
+      
+      <script>
+        let current='X'
+        document.getElementById("game-status").innerHTML = 'Inizia ' + current
+        var disableBoard = false;
+        var currentBoardValues = []
+        var boardValues = {0:[],1:[],2:[]}
+        var emptyBlock = '';
+        var noWinnerLabel = 'Pareggio!'
+        var movesPendingLabel = '';
+        var Module = {
+          onRuntimeInitialized: function() {
+            Module.tris();
+          }
+        };
+        function makeMove(event) {
+            if(!disableBoard) {
+                if (event.target.innerHTML==='') {
+                    event.target.innerHTML = current;
+                    current=current === 'O' ? 'X' : 'O';
+                    movesPendingLabel = 'Turno di ' + current;
+                    currentBoardValues = Array.from(document.getElementsByClassName("block")).map(item => {
+                        return item.innerHTML;
+                    })
+                    boardValues = {
+                        0: currentBoardValues.slice(0,3),
+                        1: currentBoardValues.slice(3,6),
+                        2: currentBoardValues.slice(6,9)
+                    };
+                    var result = Module.tris()
+                    if(result == 'X' || result == 'O') {
+                        disableBoard = true
+                        document.getElementById("game-status").innerHTML = `${result} ha vinto!!!`
+                    } else {
+                        document.getElementById("game-status").innerHTML = result
+                    }
+                }
+
+            }
+        }
+        
+        // Reset Game function
+        function resetGame() {
+            disableBoard = false
+           location.reload()
+        }
+      </script>
+      <script src="tris.js"></script>
+</body>
+</html>

@@ -1,0 +1,38 @@
+.container {
+    display: flex;
+    justify-content: center;
+    flex-direction:column;
+    align-items:center;
+    margin: 10% auto;
+  }
+  .status {
+      text-align: center;
+      color: #000000;
+  }
+  .reset-btn {
+    width: 140px;
+    height: 50px;
+    background: rgb(138, 188, 148);
+    font-size: medium;
+    color: #000000;
+    border: 1px solid #000000;
+  }
+  .board-game {
+    display: flex;
+    flex-wrap: wrap;
+    width: 500px;
+    text-align:center;
+    border:2px solid #000000; 
+  }
+  
+  .block {
+    background-color: #027714;
+    color: #000000;
+    border:2px solid #000000; 
+    flex: 1 1 30%;
+    height: 100px;
+    line-height: 100px;
+    text-align: center;
+    font-size: 40px;
+    width: 100px;
+  }
